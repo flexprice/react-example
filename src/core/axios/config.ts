@@ -1,6 +1,4 @@
 import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import EnvironmentApi from '@/api/EnvironmentApi';
-import AuthService from '@/core/auth/AuthService';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const axiosClient: AxiosInstance = axios.create({
@@ -13,16 +11,16 @@ const axiosClient: AxiosInstance = axios.create({
 
 axiosClient.interceptors.request.use(
 	async (config: InternalAxiosRequestConfig) => {
-		const token = await AuthService.getAcessToken();
-		// add active environment to the request
-		const activeEnvId = EnvironmentApi.getActiveEnvironmentId();
-		if (activeEnvId) {
-			config.headers['X-Environment-ID'] = activeEnvId;
-		}
+		// const token = await AuthService.getAcessToken();
+		// // add active environment to the request
+		// const activeEnvId = EnvironmentApi.getActiveEnvironmentId();
+		// if (activeEnvId) {
+		// 	config.headers['X-Environment-ID'] = activeEnvId;
+		// }
 
-		if (token) {
-			config.headers.Authorization = `Bearer ${token}`;
-		}
+		// if (token) {
+		// 	config.headers.Authorization = `Bearer ${token}`;
+		// }
 
 		return config;
 	},
@@ -39,7 +37,7 @@ axiosClient.interceptors.response.use(
 		if (error.response) {
 			switch (error.response.status) {
 				case 401:
-					await AuthService.logout();
+					// await AuthService.logout();
 					// Redirect to login or show message
 					break;
 				case 403:
