@@ -281,472 +281,484 @@ const EventsPage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-            <div className="p-6">
-                {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Events Dashboard</h1>
-                    <p className="text-gray-600">Monitor and track your application events in real-time</p>
-                </div>
-
-                {/* LLM Usage Simulator Card */}
-                <Card className="p-6 border-0 shadow-sm bg-gradient-to-br from-blue-50 to-purple-50 border-l-4 border-l-blue-500 mb-8">
-                    <div className="flex items-center space-x-3 mb-6">
-                        <div className="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg">
-                            <Zap className="h-5 w-5 text-white" />
-                        </div>
-                        <div>
-                            <h3 className="text-lg font-semibold text-slate-900">LLM Usage Simulator</h3>
-                            <p className="text-sm text-slate-600">Test your usage-based billing system</p>
+            <div className="px-6 py-8">
+                <div className="max-w-7xl mx-auto">
+                    {/* Header */}
+                    <div className="bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 mb-8">
+                        <div className="px-6 py-8">
+                            <div className="max-w-7xl mx-auto">
+                                <div className="text-center">
+                                    <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                                        Events Dashboard
+                                    </h1>
+                                    <p className="text-slate-600 mt-3 text-lg max-w-2xl mx-auto">
+                                        Monitor and track your application events in real-time with comprehensive analytics
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <AnimatePresence mode="wait">
-                        {isSending ? (
-                            <motion.div
-                                key="sending"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="space-y-6"
-                            >
-                                <div className="flex flex-col items-center justify-center space-y-4">
-                                    <div className="relative">
-                                        <Loader2 className="h-12 w-12 animate-spin text-blue-500" />
-                                        <div className="absolute inset-0 flex items-center justify-center">
-                                            <Activity className="h-6 w-6 text-blue-600" />
-                                        </div>
-                                    </div>
-                                    <div className="text-center">
-                                        <p className="text-lg font-medium text-slate-900">Sending LLM Events</p>
-                                        <p className="text-sm text-slate-600">{sentCount}/5 events processed</p>
-                                    </div>
-                                </div>
+                    {/* LLM Usage Simulator Card */}
+                    <Card className="p-6 border-0 shadow-sm bg-gradient-to-br from-blue-50 to-purple-50 border-l-4 border-l-blue-500 mb-8">
+                        <div className="flex items-center space-x-3 mb-6">
+                            <div className="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg">
+                                <Zap className="h-5 w-5 text-white" />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-semibold text-slate-900">LLM Usage Simulator</h3>
+                                <p className="text-sm text-slate-600">Test your usage-based billing system</p>
+                            </div>
+                        </div>
 
-                                <div className="space-y-2">
-                                    <div className="flex justify-between text-sm text-slate-600">
-                                        <span>Progress</span>
-                                        <span>{Math.round((sentCount / 5) * 100)}%</span>
-                                    </div>
-                                    <div className="w-full bg-slate-200 rounded-full h-3">
-                                        <motion.div
-                                            className="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full"
-                                            initial={{ width: 0 }}
-                                            animate={{ width: `${(sentCount / 5) * 100}%` }}
-                                            transition={{ duration: 0.2 }}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4 text-center">
-                                    <div className="bg-white/50 rounded-lg p-3">
-                                        <p className="text-2xl font-bold text-blue-600">{sentCount}</p>
-                                        <p className="text-xs text-slate-600">Events Sent</p>
-                                    </div>
-                                    <div className="bg-white/50 rounded-lg p-3">
-                                        <p className="text-2xl font-bold text-purple-600">{5 - sentCount}</p>
-                                        <p className="text-xs text-slate-600">Remaining</p>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ) : isCompleted ? (
-                            <motion.div
-                                key="completed"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="text-center space-y-6"
-                            >
-                                <div className="flex flex-col items-center space-y-4">
-                                    <div className="p-4 bg-green-100 rounded-full">
-                                        <CheckCircle className="h-12 w-12 text-green-600" />
-                                    </div>
-                                    <div>
-                                        <p className="text-xl font-semibold text-slate-900">Events Sent Successfully!</p>
-                                        <p className="text-slate-600">5 LLM usage events have been processed</p>
-                                    </div>
-                                </div>
-
-                                <div className="bg-white/50 rounded-lg p-4">
-                                    <div className="grid grid-cols-3 gap-4 text-center">
-                                        <div>
-                                            <p className="text-2xl font-bold text-green-600">5</p>
-                                            <p className="text-xs text-slate-600">Events</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-2xl font-bold text-blue-600">1.5s</p>
-                                            <p className="text-xs text-slate-600">Duration</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-2xl font-bold text-purple-600">100%</p>
-                                            <p className="text-xs text-slate-600">Success</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <Button
-                                    onClick={handleFireEvent}
-                                    variant="outline"
-                                    className="w-full border-blue-300 text-blue-700 hover:bg-blue-50"
+                        <AnimatePresence mode="wait">
+                            {isSending ? (
+                                <motion.div
+                                    key="sending"
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    className="space-y-6"
                                 >
-                                    <Send className="h-4 w-4 mr-2" /> Send Again
-                                </Button>
-                            </motion.div>
-                        ) : (
-                            <motion.div
-                                key="initial"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="space-y-6"
-                            >
-                                <div className="text-center">
-                                    <p className="text-slate-600 mb-2">Simulate LLM usage events to test your billing system</p>
-                                    <p className="text-sm text-slate-500">This will send 5 sample events with different usage patterns</p>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4 text-center">
-                                    <div className="bg-white/50 rounded-lg p-4">
-                                        <Zap className="h-6 w-6 text-blue-600 mx-auto mb-2" />
-                                        <p className="text-sm font-medium text-slate-900">5 Events</p>
-                                        <p className="text-xs text-slate-600">Sample data</p>
+                                    <div className="flex flex-col items-center justify-center space-y-4">
+                                        <div className="relative">
+                                            <Loader2 className="h-12 w-12 animate-spin text-blue-500" />
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <Activity className="h-6 w-6 text-blue-600" />
+                                            </div>
+                                        </div>
+                                        <div className="text-center">
+                                            <p className="text-lg font-medium text-slate-900">Sending LLM Events</p>
+                                            <p className="text-sm text-slate-600">{sentCount}/5 events processed</p>
+                                        </div>
                                     </div>
-                                    <div className="bg-white/50 rounded-lg p-4">
-                                        <Activity className="h-6 w-6 text-purple-600 mx-auto mb-2" />
-                                        <p className="text-sm font-medium text-slate-900">Real-time</p>
-                                        <p className="text-xs text-slate-600">Live processing</p>
-                                    </div>
-                                </div>
 
-                                <Button
-                                    onClick={handleFireEvent}
-                                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between text-sm text-slate-600">
+                                            <span>Progress</span>
+                                            <span>{Math.round((sentCount / 5) * 100)}%</span>
+                                        </div>
+                                        <div className="w-full bg-slate-200 rounded-full h-3">
+                                            <motion.div
+                                                className="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full"
+                                                initial={{ width: 0 }}
+                                                animate={{ width: `${(sentCount / 5) * 100}%` }}
+                                                transition={{ duration: 0.2 }}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4 text-center">
+                                        <div className="bg-white/50 rounded-lg p-3">
+                                            <p className="text-2xl font-bold text-blue-600">{sentCount}</p>
+                                            <p className="text-xs text-slate-600">Events Sent</p>
+                                        </div>
+                                        <div className="bg-white/50 rounded-lg p-3">
+                                            <p className="text-2xl font-bold text-purple-600">{5 - sentCount}</p>
+                                            <p className="text-xs text-slate-600">Remaining</p>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ) : isCompleted ? (
+                                <motion.div
+                                    key="completed"
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    className="text-center space-y-6"
                                 >
-                                    <Send className="h-4 w-4 mr-2" /> Start Simulation
-                                </Button>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </Card>
+                                    <div className="flex flex-col items-center space-y-4">
+                                        <div className="p-4 bg-green-100 rounded-full">
+                                            <CheckCircle className="h-12 w-12 text-green-600" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xl font-semibold text-slate-900">Events Sent Successfully!</p>
+                                            <p className="text-slate-600">5 LLM usage events have been processed</p>
+                                        </div>
+                                    </div>
 
-                {/* Refresh Button */}
-                <div className="flex justify-end mb-8">
-                    <Button
-                        variant="outline"
-                        onClick={handleRefresh}
-                        className="flex items-center gap-2 border-slate-300 hover:border-slate-400 hover:bg-slate-50 px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105"
-                    >
-                        <RefreshCw className="w-4 h-4" />
-                        Refresh Data
-                    </Button>
-                </div>
+                                    <div className="bg-white/50 rounded-lg p-4">
+                                        <div className="grid grid-cols-3 gap-4 text-center">
+                                            <div>
+                                                <p className="text-2xl font-bold text-green-600">5</p>
+                                                <p className="text-xs text-slate-600">Events</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-2xl font-bold text-blue-600">1.5s</p>
+                                                <p className="text-xs text-slate-600">Duration</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-2xl font-bold text-purple-600">100%</p>
+                                                <p className="text-xs text-slate-600">Success</p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <Card className="p-6 hover:shadow-lg transition-all duration-200 border-0 shadow-sm border-blue-200 border-l-4 hover:scale-105">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-medium text-slate-600 mb-1">Total Events</p>
-                                <p className="text-2xl font-bold text-slate-900">{events.length}</p>
-                                <p className="text-sm font-medium text-blue-600">+{events.length} today</p>
-                            </div>
-                            <div className="p-3 rounded-lg bg-blue-50">
-                                <Activity className="h-6 w-6 text-blue-600" />
-                            </div>
-                        </div>
-                    </Card>
-
-                    <Card className="p-6 hover:shadow-lg transition-all duration-200 border-0 shadow-sm border-green-200 border-l-4 hover:scale-105">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-medium text-slate-600 mb-1">Total Usage</p>
-                                <p className="text-2xl font-bold text-slate-900">
-                                    {customerSummary[0]?.total_usage || 0}
-                                </p>
-                                <p className="text-sm font-medium text-green-600">+{customerSummary[0]?.total_usage || 0} units</p>
-                            </div>
-                            <div className="p-3 rounded-lg bg-green-50">
-                                <BarChart3 className="h-6 w-6 text-green-600" />
-                            </div>
-                        </div>
-                    </Card>
-
-                    <Card className="p-6 hover:shadow-lg transition-all duration-200 border-0 shadow-sm border-purple-200 border-l-4 hover:scale-105">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-medium text-slate-600 mb-1">Active Customers</p>
-                                <p className="text-2xl font-bold text-slate-900">{customerSummary.length}</p>
-                                <p className="text-sm font-medium text-purple-600">+{customerSummary.length} active</p>
-                            </div>
-                            <div className="p-3 rounded-lg bg-purple-50">
-                                <Users className="h-6 w-6 text-purple-600" />
-                            </div>
-                        </div>
-                    </Card>
-
-                    <Card className="p-6 hover:shadow-lg transition-all duration-200 border-0 shadow-sm border-orange-200 border-l-4 hover:scale-105">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-medium text-slate-600 mb-1">Last Activity</p>
-                                <p className="text-sm font-semibold text-slate-900">
-                                    {customerSummary[0]?.last_activity
-                                        ? formatDateTime(customerSummary[0].last_activity)
-                                        : 'No activity'
-                                    }
-                                </p>
-                                <p className="text-sm font-medium text-orange-600">Recent</p>
-                            </div>
-                            <div className="p-3 rounded-lg bg-orange-50">
-                                <TrendingUp className="h-6 w-6 text-orange-600" />
-                            </div>
-                        </div>
-                    </Card>
-                </div>
-
-                {/* Charts Row */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    {/* Usage Over Time Chart */}
-                    <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg rounded-2xl overflow-hidden">
-                        <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 p-6">
-                            <CardTitle className="text-xl font-semibold text-gray-800 flex items-center gap-2">
-                                <BarChart3 className="h-5 w-5 text-blue-600" />
-                                Usage Over Time
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-6">
-                            {isLoadingUsage ? (
-                                <div className="h-64 flex items-center justify-center">
-                                    <div className="animate-pulse bg-gray-200 rounded-lg h-48 w-full"></div>
-                                </div>
+                                    <Button
+                                        onClick={handleFireEvent}
+                                        variant="outline"
+                                        className="w-full border-blue-300 text-blue-700 hover:bg-blue-50"
+                                    >
+                                        <Send className="h-4 w-4 mr-2" /> Send Again
+                                    </Button>
+                                </motion.div>
                             ) : (
-                                <div className="h-64">
+                                <motion.div
+                                    key="initial"
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    className="space-y-6"
+                                >
+                                    <div className="text-center">
+                                        <p className="text-slate-600 mb-2">Simulate LLM usage events to test your billing system</p>
+                                        <p className="text-sm text-slate-500">This will send 5 sample events with different usage patterns</p>
+                                    </div>
 
-                                    <div className="h-80">
-                                        {(() => {
-                                            console.log('Rendering chart with data:', formattedUsageData);
-                                            return null;
-                                        })()}
-                                        {formattedUsageData.length > 0 ? (
-                                            <ResponsiveContainer width="100%" height="100%">
-                                                <LineChart
-                                                    data={formattedUsageData}
-                                                    margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
-                                                >
-                                                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                                                    <XAxis
-                                                        dataKey="date"
-                                                        tick={{ fontSize: 11 }}
-                                                        angle={-45}
-                                                        textAnchor="end"
-                                                        height={60}
-                                                    />
-                                                    <YAxis
-                                                        tick={{ fontSize: 11 }}
-                                                        width={40}
-                                                    />
-                                                    <RechartsTooltip />
-                                                    <Line
-                                                        type="monotone"
-                                                        dataKey="value"
-                                                        stroke="#3b82f6"
-                                                        strokeWidth={3}
-                                                        dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
-                                                        activeDot={{ r: 6, stroke: '#3b82f6', strokeWidth: 2 }}
-                                                    />
-                                                </LineChart>
-                                            </ResponsiveContainer>
-                                        ) : (
-                                            <div className="flex items-center justify-center h-full">
-                                                <div className="text-center">
-                                                    <div className="text-2xl mb-2">📊</div>
-                                                    <p className="text-gray-500">Chart data loading...</p>
+                                    <div className="grid grid-cols-2 gap-4 text-center">
+                                        <div className="bg-white/50 rounded-lg p-4">
+                                            <Zap className="h-6 w-6 text-blue-600 mx-auto mb-2" />
+                                            <p className="text-sm font-medium text-slate-900">5 Events</p>
+                                            <p className="text-xs text-slate-600">Sample data</p>
+                                        </div>
+                                        <div className="bg-white/50 rounded-lg p-4">
+                                            <Activity className="h-6 w-6 text-purple-600 mx-auto mb-2" />
+                                            <p className="text-sm font-medium text-slate-900">Real-time</p>
+                                            <p className="text-xs text-slate-600">Live processing</p>
+                                        </div>
+                                    </div>
+
+                                    <Button
+                                        onClick={handleFireEvent}
+                                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
+                                    >
+                                        <Send className="h-4 w-4 mr-2" /> Start Simulation
+                                    </Button>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </Card>
+
+                    {/* Refresh Button */}
+                    <div className="flex justify-end mb-8">
+                        <Button
+                            variant="outline"
+                            onClick={handleRefresh}
+                            className="flex items-center gap-2 border-slate-300 hover:border-slate-400 hover:bg-slate-50 px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105"
+                        >
+                            <RefreshCw className="w-4 h-4" />
+                            Refresh Data
+                        </Button>
+                    </div>
+
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <Card className="p-6 hover:shadow-lg transition-all duration-200 border-0 shadow-sm border-blue-200 border-l-4 hover:scale-105">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm font-medium text-slate-600 mb-1">Total Events</p>
+                                    <p className="text-2xl font-bold text-slate-900">{events.length}</p>
+                                    <p className="text-sm font-medium text-blue-600">+{events.length} today</p>
+                                </div>
+                                <div className="p-3 rounded-lg bg-blue-50">
+                                    <Activity className="h-6 w-6 text-blue-600" />
+                                </div>
+                            </div>
+                        </Card>
+
+                        <Card className="p-6 hover:shadow-lg transition-all duration-200 border-0 shadow-sm border-green-200 border-l-4 hover:scale-105">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm font-medium text-slate-600 mb-1">Total Usage</p>
+                                    <p className="text-2xl font-bold text-slate-900">
+                                        {customerSummary[0]?.total_usage || 0}
+                                    </p>
+                                    <p className="text-sm font-medium text-green-600">+{customerSummary[0]?.total_usage || 0} units</p>
+                                </div>
+                                <div className="p-3 rounded-lg bg-green-50">
+                                    <BarChart3 className="h-6 w-6 text-green-600" />
+                                </div>
+                            </div>
+                        </Card>
+
+                        <Card className="p-6 hover:shadow-lg transition-all duration-200 border-0 shadow-sm border-purple-200 border-l-4 hover:scale-105">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm font-medium text-slate-600 mb-1">Active Customers</p>
+                                    <p className="text-2xl font-bold text-slate-900">{customerSummary.length}</p>
+                                    <p className="text-sm font-medium text-purple-600">+{customerSummary.length} active</p>
+                                </div>
+                                <div className="p-3 rounded-lg bg-purple-50">
+                                    <Users className="h-6 w-6 text-purple-600" />
+                                </div>
+                            </div>
+                        </Card>
+
+                        <Card className="p-6 hover:shadow-lg transition-all duration-200 border-0 shadow-sm border-orange-200 border-l-4 hover:scale-105">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm font-medium text-slate-600 mb-1">Last Activity</p>
+                                    <p className="text-sm font-semibold text-slate-900">
+                                        {customerSummary[0]?.last_activity
+                                            ? formatDateTime(customerSummary[0].last_activity)
+                                            : 'No activity'
+                                        }
+                                    </p>
+                                    <p className="text-sm font-medium text-orange-600">Recent</p>
+                                </div>
+                                <div className="p-3 rounded-lg bg-orange-50">
+                                    <TrendingUp className="h-6 w-6 text-orange-600" />
+                                </div>
+                            </div>
+                        </Card>
+                    </div>
+
+                    {/* Charts Row */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        {/* Usage Over Time Chart */}
+                        <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg rounded-2xl overflow-hidden">
+                            <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 p-6">
+                                <CardTitle className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                                    <BarChart3 className="h-5 w-5 text-blue-600" />
+                                    Usage Over Time
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="p-6">
+                                {isLoadingUsage ? (
+                                    <div className="h-64 flex items-center justify-center">
+                                        <div className="animate-pulse bg-gray-200 rounded-lg h-48 w-full"></div>
+                                    </div>
+                                ) : (
+                                    <div className="h-64">
+
+                                        <div className="h-80">
+                                            {(() => {
+                                                console.log('Rendering chart with data:', formattedUsageData);
+                                                return null;
+                                            })()}
+                                            {formattedUsageData.length > 0 ? (
+                                                <ResponsiveContainer width="100%" height="100%">
+                                                    <LineChart
+                                                        data={formattedUsageData}
+                                                        margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
+                                                    >
+                                                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                                        <XAxis
+                                                            dataKey="date"
+                                                            tick={{ fontSize: 11 }}
+                                                            angle={-45}
+                                                            textAnchor="end"
+                                                            height={60}
+                                                        />
+                                                        <YAxis
+                                                            tick={{ fontSize: 11 }}
+                                                            width={40}
+                                                        />
+                                                        <RechartsTooltip />
+                                                        <Line
+                                                            type="monotone"
+                                                            dataKey="value"
+                                                            stroke="#3b82f6"
+                                                            strokeWidth={3}
+                                                            dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                                                            activeDot={{ r: 6, stroke: '#3b82f6', strokeWidth: 2 }}
+                                                        />
+                                                    </LineChart>
+                                                </ResponsiveContainer>
+                                            ) : (
+                                                <div className="flex items-center justify-center h-full">
+                                                    <div className="text-center">
+                                                        <div className="text-2xl mb-2">📊</div>
+                                                        <p className="text-gray-500">Chart data loading...</p>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+
+                        {/* Event Types Distribution */}
+                        <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg rounded-2xl overflow-hidden">
+                            <CardHeader className="bg-gradient-to-r from-green-50 to-blue-50 p-6">
+                                <CardTitle className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                                    <Activity className="h-5 w-5 text-green-600" />
+                                    Event Types Distribution
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="p-6">
+                                {isLoadingEvents ? (
+                                    <div className="h-64 flex items-center justify-center">
+                                        <div className="animate-pulse bg-gray-200 rounded-full h-48 w-48"></div>
+                                    </div>
+                                ) : (
+                                    <div className="h-64">
+                                        {events.length === 0 && (
+                                            <div className="mb-4 text-center">
+                                                <div className="text-xs text-gray-400 bg-green-50 px-3 py-2 rounded inline-block">
+                                                    📊 Showing sample data for demonstration
                                                 </div>
                                             </div>
                                         )}
+                                        <ResponsiveContainer width="100%" height={256}>
+                                            <PieChart>
+                                                <Pie
+                                                    data={eventCountByType}
+                                                    cx="50%"
+                                                    cy="50%"
+                                                    labelLine={false}
+                                                    label={({ name, percent }) => `${name} ${((percent as number) * 100).toFixed(0)}%`}
+                                                    outerRadius={80}
+                                                    fill="#8884d8"
+                                                    dataKey="count"
+                                                >
+                                                    {eventCountByType.map((_entry, _index) => (
+                                                        <Cell key={`cell-${_index}`} fill={COLORS[_index % COLORS.length]} />
+                                                    ))}
+                                                </Pie>
+                                                <RechartsTooltip />
+                                            </PieChart>
+                                        </ResponsiveContainer>
                                     </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </div>
+
+                    {/* Recent Events Table */}
+                    <Card className="border-0 shadow-sm mb-8">
+                        <div className="p-6 border-b border-slate-200">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-xl font-semibold text-slate-900">Recent Events</h2>
+                            </div>
+                        </div>
+                        <div className="divide-y divide-slate-200">
+                            {isLoadingEvents ? (
+                                <div className="p-6 space-y-3">
+                                    {[...Array(3)].map((_, i) => (
+                                        <div key={i} className="animate-pulse">
+                                            <div className="h-4 bg-slate-200 rounded w-3/4 mb-2"></div>
+                                            <div className="h-4 bg-slate-200 rounded w-1/2"></div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : events.length > 0 ? (
+                                events.slice(0, 10).map((event, _index) => (
+                                    <div key={event.id} className="p-6 hover:bg-slate-50 transition-colors bg-green-50 border-green-200">
+                                        <div className="flex items-center space-x-4">
+                                            <div className="flex-shrink-0">
+                                                <Activity className="h-4 w-4 text-green-500" />
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-center space-x-2">
+                                                    <p className="text-sm font-medium text-slate-900">LLM Usage Event Fired</p>
+                                                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
+                                                        {event.eventName}
+                                                    </span>
+                                                </div>
+                                                <p className="text-sm text-slate-600 mt-1">Customer: {event.externalCustomerId}</p>
+                                                <p className="text-xs text-slate-500 mt-1">
+                                                    Properties: {JSON.stringify(event.properties)}
+                                                </p>
+                                            </div>
+                                            <div className="flex-shrink-0 text-right">
+                                                <p className="text-sm text-slate-500">{formatDateTime(event.timestamp)}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="text-center py-12">
+                                    <Activity className="h-12 w-12 text-slate-300 mx-auto mb-4" />
+                                    <p className="text-slate-500 text-lg font-medium">No events found</p>
+                                    <p className="text-slate-400 text-sm">Events will appear here when you fire them</p>
                                 </div>
                             )}
-                        </CardContent>
+                        </div>
+                        {paginationState.hasMore && events.length > 0 && (
+                            <div className="p-6 border-t border-slate-200">
+                                <Button
+                                    onClick={loadMoreEvents}
+                                    disabled={isLoadingEvents}
+                                    variant="outline"
+                                    className="w-full hover:bg-slate-50 transition-all duration-200"
+                                >
+                                    {isLoadingEvents ? 'Loading...' : 'Load More Events'}
+                                </Button>
+                            </div>
+                        )}
                     </Card>
 
-                    {/* Event Types Distribution */}
+                    {/* Customer Summary */}
                     <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg rounded-2xl overflow-hidden">
-                        <CardHeader className="bg-gradient-to-r from-green-50 to-blue-50 p-6">
+                        <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 p-6">
                             <CardTitle className="text-xl font-semibold text-gray-800 flex items-center gap-2">
-                                <Activity className="h-5 w-5 text-green-600" />
-                                Event Types Distribution
+                                <Users className="h-5 w-5 text-purple-600" />
+                                Customer Usage Summary
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="p-6">
-                            {isLoadingEvents ? (
-                                <div className="h-64 flex items-center justify-center">
-                                    <div className="animate-pulse bg-gray-200 rounded-full h-48 w-48"></div>
+                            {isLoadingSummary ? (
+                                <div className="space-y-4">
+                                    {[...Array(2)].map((_, i) => (
+                                        <div key={i} className="animate-pulse">
+                                            <div className="h-20 bg-gray-200 rounded-lg"></div>
+                                        </div>
+                                    ))}
                                 </div>
                             ) : (
-                                <div className="h-64">
-                                    {events.length === 0 && (
-                                        <div className="mb-4 text-center">
-                                            <div className="text-xs text-gray-400 bg-green-50 px-3 py-2 rounded inline-block">
-                                                📊 Showing sample data for demonstration
+                                <div className="space-y-6">
+                                    {customerSummary.map((customer) => (
+                                        <div key={customer.customer_id} className="bg-gradient-to-r from-gray-50 to-slate-50 rounded-xl p-6 border border-gray-100 hover:shadow-md transition-all duration-200">
+                                            <div className="flex justify-between items-start mb-4">
+                                                <div>
+                                                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Customer: {customer.customer_id}</h3>
+                                                    <p className="text-sm text-gray-600">
+                                                        External ID: demo_user_123
+                                                    </p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <div className="text-3xl font-bold text-gray-900">{customer.total_usage}</div>
+                                                    <div className="text-sm text-gray-600">Total Usage</div>
+                                                </div>
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-6">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="p-2 bg-blue-100 rounded-lg">
+                                                        <Activity className="h-4 w-4 text-blue-600" />
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-sm text-gray-600">Event Count</span>
+                                                        <p className="font-semibold text-gray-900">{customer.event_count}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center gap-3">
+                                                    <div className="p-2 bg-green-100 rounded-lg">
+                                                        <TrendingUp className="h-4 w-4 text-green-600" />
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-sm text-gray-600">Last Activity</span>
+                                                        <p className="font-semibold text-gray-900 text-sm">
+                                                            {formatDateTime(customer.last_activity)}
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+                                    ))}
+                                    {customerSummary.length === 0 && (
+                                        <div className="text-center py-12">
+                                            <Users className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                                            <p className="text-gray-500 text-lg font-medium">No customer data</p>
+                                            <p className="text-gray-400 text-sm">Customer summaries will appear here</p>
+                                        </div>
                                     )}
-                                    <ResponsiveContainer width="100%" height={256}>
-                                        <PieChart>
-                                            <Pie
-                                                data={eventCountByType}
-                                                cx="50%"
-                                                cy="50%"
-                                                labelLine={false}
-                                                label={({ name, percent }) => `${name} ${((percent as number) * 100).toFixed(0)}%`}
-                                                outerRadius={80}
-                                                fill="#8884d8"
-                                                dataKey="count"
-                                            >
-                                                {eventCountByType.map((_entry, _index) => (
-                                                    <Cell key={`cell-${_index}`} fill={COLORS[_index % COLORS.length]} />
-                                                ))}
-                                            </Pie>
-                                            <RechartsTooltip />
-                                        </PieChart>
-                                    </ResponsiveContainer>
                                 </div>
                             )}
                         </CardContent>
                     </Card>
                 </div>
-
-                {/* Recent Events Table */}
-                <Card className="border-0 shadow-sm mb-8">
-                    <div className="p-6 border-b border-slate-200">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-xl font-semibold text-slate-900">Recent Events</h2>
-                        </div>
-                    </div>
-                    <div className="divide-y divide-slate-200">
-                        {isLoadingEvents ? (
-                            <div className="p-6 space-y-3">
-                                {[...Array(3)].map((_, i) => (
-                                    <div key={i} className="animate-pulse">
-                                        <div className="h-4 bg-slate-200 rounded w-3/4 mb-2"></div>
-                                        <div className="h-4 bg-slate-200 rounded w-1/2"></div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : events.length > 0 ? (
-                            events.slice(0, 10).map((event, _index) => (
-                                <div key={event.id} className="p-6 hover:bg-slate-50 transition-colors bg-green-50 border-green-200">
-                                    <div className="flex items-center space-x-4">
-                                        <div className="flex-shrink-0">
-                                            <Activity className="h-4 w-4 text-green-500" />
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex items-center space-x-2">
-                                                <p className="text-sm font-medium text-slate-900">LLM Usage Event Fired</p>
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
-                                                    {event.eventName}
-                                                </span>
-                                            </div>
-                                            <p className="text-sm text-slate-600 mt-1">Customer: {event.externalCustomerId}</p>
-                                            <p className="text-xs text-slate-500 mt-1">
-                                                Properties: {JSON.stringify(event.properties)}
-                                            </p>
-                                        </div>
-                                        <div className="flex-shrink-0 text-right">
-                                            <p className="text-sm text-slate-500">{formatDateTime(event.timestamp)}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            <div className="text-center py-12">
-                                <Activity className="h-12 w-12 text-slate-300 mx-auto mb-4" />
-                                <p className="text-slate-500 text-lg font-medium">No events found</p>
-                                <p className="text-slate-400 text-sm">Events will appear here when you fire them</p>
-                            </div>
-                        )}
-                    </div>
-                    {paginationState.hasMore && events.length > 0 && (
-                        <div className="p-6 border-t border-slate-200">
-                            <Button
-                                onClick={loadMoreEvents}
-                                disabled={isLoadingEvents}
-                                variant="outline"
-                                className="w-full hover:bg-slate-50 transition-all duration-200"
-                            >
-                                {isLoadingEvents ? 'Loading...' : 'Load More Events'}
-                            </Button>
-                        </div>
-                    )}
-                </Card>
-
-                {/* Customer Summary */}
-                <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg rounded-2xl overflow-hidden">
-                    <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 p-6">
-                        <CardTitle className="text-xl font-semibold text-gray-800 flex items-center gap-2">
-                            <Users className="h-5 w-5 text-purple-600" />
-                            Customer Usage Summary
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                        {isLoadingSummary ? (
-                            <div className="space-y-4">
-                                {[...Array(2)].map((_, i) => (
-                                    <div key={i} className="animate-pulse">
-                                        <div className="h-20 bg-gray-200 rounded-lg"></div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="space-y-6">
-                                {customerSummary.map((customer) => (
-                                    <div key={customer.customer_id} className="bg-gradient-to-r from-gray-50 to-slate-50 rounded-xl p-6 border border-gray-100 hover:shadow-md transition-all duration-200">
-                                        <div className="flex justify-between items-start mb-4">
-                                            <div>
-                                                <h3 className="text-lg font-semibold text-gray-900 mb-1">Customer: {customer.customer_id}</h3>
-                                                <p className="text-sm text-gray-600">
-                                                    External ID: demo_user_123
-                                                </p>
-                                            </div>
-                                            <div className="text-right">
-                                                <div className="text-3xl font-bold text-gray-900">{customer.total_usage}</div>
-                                                <div className="text-sm text-gray-600">Total Usage</div>
-                                            </div>
-                                        </div>
-                                        <div className="grid grid-cols-2 gap-6">
-                                            <div className="flex items-center gap-3">
-                                                <div className="p-2 bg-blue-100 rounded-lg">
-                                                    <Activity className="h-4 w-4 text-blue-600" />
-                                                </div>
-                                                <div>
-                                                    <span className="text-sm text-gray-600">Event Count</span>
-                                                    <p className="font-semibold text-gray-900">{customer.event_count}</p>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center gap-3">
-                                                <div className="p-2 bg-green-100 rounded-lg">
-                                                    <TrendingUp className="h-4 w-4 text-green-600" />
-                                                </div>
-                                                <div>
-                                                    <span className="text-sm text-gray-600">Last Activity</span>
-                                                    <p className="font-semibold text-gray-900 text-sm">
-                                                        {formatDateTime(customer.last_activity)}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                                {customerSummary.length === 0 && (
-                                    <div className="text-center py-12">
-                                        <Users className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                                        <p className="text-gray-500 text-lg font-medium">No customer data</p>
-                                        <p className="text-gray-400 text-sm">Customer summaries will appear here</p>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
             </div>
         </div>
     );
