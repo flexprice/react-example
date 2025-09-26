@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Calendar, BarChart3, Settings, Zap, ChevronRight, Activity } from 'lucide-react';
+import { Home, BarChart3, Settings, Zap, ChevronRight, Activity } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router';
 
 const Sidebar: React.FC = () => {
@@ -12,12 +12,6 @@ const Sidebar: React.FC = () => {
             url: '/',
             icon: Home,
             description: 'Overview and metrics',
-        },
-        {
-            title: 'Events',
-            url: '/events',
-            icon: Calendar,
-            description: 'Monitor events',
         },
         {
             title: 'Usage',

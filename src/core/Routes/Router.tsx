@@ -1,10 +1,9 @@
 import { createBrowserRouter } from 'react-router';
-import { HomePage, ErrorPage, EventsPage, UsagePage, AnalyticsPage } from '@/pages';
+import { HomePage, ErrorPage, UsagePage, AnalyticsPage } from '@/pages';
 import { MainLayout } from '@/layouts';
 
 export const RouteNames = {
     home: '/',
-    events: '/events',
     usage: '/usage',
     analytics: '/analytics',
     error: '*',
@@ -18,10 +17,6 @@ export const MainRouter = createBrowserRouter([
             {
                 path: RouteNames.home,
                 element: <HomePage />,
-            },
-            {
-                path: RouteNames.events,
-                element: <EventsPage />,
             },
             {
                 path: RouteNames.usage,
