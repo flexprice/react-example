@@ -33,8 +33,8 @@ A complete example application demonstrating FlexPrice SDK integration with usag
 
 ```bash
 # Clone and install
-git clone https://github.com/flexprice/flexprice-examples
-cd flexprice-examples/react-sdk-example
+git clone https://github.com/flexprice/react-example
+cd react-example
 npm install
 
 # Configure environment
