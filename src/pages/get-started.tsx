@@ -59,25 +59,21 @@ const GetStartedPage: React.FC = () => {
 
     const codeBlocks = {
         install: `npm install @flexprice/sdk`,
-        config: `import { Configuration } from '@flexprice/sdk';
-import { FlexPrice } from './FlexPrice';
+        config: `import { Configuration, FlexPrice, CustomerAPI, BillingAPI } from '@flexprice/sdk';
 
-// Get configuration from environment variables
-const API_KEY = import.meta.env.VITE_FLEXPRICE_API_KEY || "your_api_key_here";
-const BASE_PATH = import.meta.env.VITE_FLEXPRICE_BASE_URL || "https://api.cloud.flexprice.io/v1";
-const ENVIRONMENT_ID = import.meta.env.VITE_FLEXPRICE_ENVIRONMENT_ID || "your_environment_id_here";
-
-export const flexpriceConfig = new Configuration({
-    basePath: BASE_PATH,
-    apiKey: API_KEY,
+// Create your configuration
+const flexpriceConfig = new Configuration({
+    basePath: 'https://api.cloud.flexprice.io/v1',
+    apiKey: 'your_api_key_here',
     headers: {
-        'X-Environment-ID': ENVIRONMENT_ID
+        'X-Environment-ID': 'your_environment_id_here'
     }
 });
 
+// Initialize all APIs with the same config
 export const flexprice = new FlexPrice(flexpriceConfig);
-
-export { FlexPrice };`,
+export const customerAPI = new CustomerAPI(flexpriceConfig);
+export const billingAPI = new BillingAPI(flexpriceConfig);`,
         usage: `// Fire a usage event
 await flexprice.fireEvent({
   eventName: 'llm_usage',
@@ -96,9 +92,9 @@ const usage = await flexprice.getUsage({
   endTime: '2024-01-31'
 });
 
-// Use with different APIs
-const customerAPI = new CustomerAPI(flexpriceConfig);
-const billingAPI = new BillingAPI(flexpriceConfig);`,
+// Use different APIs
+const customers = await customerAPI.getCustomers();
+const invoices = await billingAPI.getInvoices();`,
         env: `# .env
 VITE_FLEXPRICE_API_KEY=your_api_key_here
 VITE_FLEXPRICE_ENVIRONMENT_ID=your_environment_id_here
@@ -279,7 +275,8 @@ VITE_FLEXPRICE_BASE_URL=https://api.cloud.flexprice.io/v1`
                         >
                             <Button
                                 size="lg"
-                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 rounded-2xl"
+                                onClick={() => window.open('https://admin.flexprice.io/', '_blank')}
                             >
                                 <Globe className="h-5 w-5 mr-2" />
                                 Visit Dashboard
@@ -288,7 +285,8 @@ VITE_FLEXPRICE_BASE_URL=https://api.cloud.flexprice.io/v1`
                             <Button
                                 variant="outline"
                                 size="lg"
-                                className="border-2 border-slate-300 hover:border-slate-400 hover:bg-slate-50 px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                                className="border-2 border-slate-300 hover:border-slate-400 hover:bg-slate-50 px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl"
+                                onClick={() => window.open('https://github.com/flexprice/flexprice', '_blank')}
                             >
                                 <Github className="h-5 w-5 mr-2" />
                                 Star on GitHub
@@ -304,97 +302,117 @@ VITE_FLEXPRICE_BASE_URL=https://api.cloud.flexprice.io/v1`
                         transition={{ duration: 0.6, delay: 0.4 }}
                         className="mb-20"
                     >
-                        <Card className="border-0 shadow-2xl bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 backdrop-blur-sm">
-                            <CardHeader className="text-center pb-6">
-                                <CardTitle className="text-3xl font-bold text-slate-900 flex items-center justify-center gap-3 mb-4">
-                                    <Zap className="h-8 w-8 text-blue-600" />
-                                    Quick Setup
-                                </CardTitle>
-                                <p className="text-slate-600 text-lg">
-                                    Get started in 3 simple steps
-                                </p>
-                            </CardHeader>
-                            <CardContent className="space-y-8">
-                                {/* Step 1: Install */}
-                                <motion.div
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.6, delay: 0.6 }}
-                                    className="bg-white rounded-2xl p-8 border border-blue-200/50 shadow-lg hover:shadow-xl transition-all duration-300"
-                                >
-                                    <div className="flex items-start gap-6">
-                                        <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl flex items-center justify-center font-bold text-lg shadow-lg">
-                                            1
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
-                                                <Terminal className="h-6 w-6 text-blue-600" />
-                                                Install the SDK
-                                            </h3>
-                                            <p className="text-slate-600 text-lg mb-4">
-                                                Add FlexPrice SDK to your project dependencies
-                                            </p>
-                                            <CodeBlock code={codeBlocks.install} language="bash" id="install" />
-                                        </div>
-                                    </div>
-                                </motion.div>
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl font-bold text-slate-900 flex items-center justify-center gap-3 mb-6">
+                                <Zap className="h-10 w-10 text-blue-600" />
+                                Quick Setup
+                            </h2>
+                            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+                                Get started in 3 simple steps
+                            </p>
+                        </div>
 
-                                {/* Step 2: Configure */}
-                                <motion.div
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.6, delay: 0.8 }}
-                                    className="bg-white rounded-2xl p-8 border border-purple-200/50 shadow-lg hover:shadow-xl transition-all duration-300"
-                                >
-                                    <div className="flex items-start gap-6">
-                                        <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl flex items-center justify-center font-bold text-lg shadow-lg">
-                                            2
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
-                                                <Settings className="h-6 w-6 text-purple-600" />
-                                                Create your config object
-                                            </h3>
-                                            <p className="text-slate-600 text-lg mb-4">
-                                                Create a main configuration object that you can pass to all FlexPrice APIs
-                                            </p>
-                                            <CodeBlock code={codeBlocks.config} language="javascript" id="config" />
-                                        </div>
+                        <div className="space-y-12">
+                            {/* Step 1: Install */}
+                            <motion.div
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.6, delay: 0.6 }}
+                                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-l-blue-500"
+                            >
+                                <div className="flex items-start gap-6">
+                                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl flex items-center justify-center font-bold text-lg shadow-lg">
+                                        1
                                     </div>
-                                </motion.div>
+                                    <div className="flex-1">
+                                        <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
+                                            <Terminal className="h-6 w-6 text-blue-600" />
+                                            Install the SDK
+                                        </h3>
+                                        <p className="text-slate-600 text-lg mb-6">
+                                            Add FlexPrice SDK to your project dependencies
+                                        </p>
+                                        <CodeBlock code={codeBlocks.install} language="bash" id="install" />
+                                    </div>
+                                </div>
+                            </motion.div>
 
-                                {/* Step 3: Environment Variables */}
-                                <motion.div
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.6, delay: 1.0 }}
-                                    className="bg-white rounded-2xl p-8 border border-green-200/50 shadow-lg hover:shadow-xl transition-all duration-300"
-                                >
-                                    <div className="flex items-start gap-6">
-                                        <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-2xl flex items-center justify-center font-bold text-lg shadow-lg">
-                                            3
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
-                                                <FileText className="h-6 w-6 text-green-600" />
-                                                Set up environment variables
-                                            </h3>
-                                            <p className="text-slate-600 text-lg mb-4">
-                                                Create a <code className="bg-slate-100 px-3 py-1 rounded-lg text-sm font-mono">.env</code> file in your project root with your API credentials:
-                                            </p>
-                                            <CodeBlock code={codeBlocks.env} language="bash" id="env" />
-                                        </div>
+                            {/* Step 2: Configure */}
+                            <motion.div
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.6, delay: 0.8 }}
+                                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-l-purple-500"
+                            >
+                                <div className="flex items-start gap-6">
+                                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl flex items-center justify-center font-bold text-lg shadow-lg">
+                                        2
                                     </div>
-                                </motion.div>
-                            </CardContent>
-                        </Card>
+                                    <div className="flex-1">
+                                        <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
+                                            <Settings className="h-6 w-6 text-purple-600" />
+                                            Initialize FlexPrice APIs
+                                        </h3>
+                                        <p className="text-slate-600 text-lg mb-6">
+                                            Create a config object and initialize all FlexPrice APIs with it
+                                        </p>
+                                        <CodeBlock code={codeBlocks.config} language="javascript" id="config" />
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* Step 3: Environment Variables */}
+                            <motion.div
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.6, delay: 1.0 }}
+                                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-l-green-500"
+                            >
+                                <div className="flex items-start gap-6">
+                                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-2xl flex items-center justify-center font-bold text-lg shadow-lg">
+                                        3
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
+                                            <FileText className="h-6 w-6 text-green-600" />
+                                            Set up environment variables
+                                        </h3>
+                                        <p className="text-slate-600 text-lg mb-4">
+                                            Create a <code className="bg-slate-100 px-3 py-1 rounded-lg text-sm font-mono">.env</code> file in your project root with your API credentials:
+                                        </p>
+                                        <CodeBlock code={codeBlocks.env} language="bash" id="env" />
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+
+                    {/* Usage Example */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 1.2 }}
+                        className="mb-20"
+                    >
+                        <div className="text-center mb-12">
+                            <h2 className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-blue-900 bg-clip-text text-transparent mb-6">
+                                Usage Example
+                            </h2>
+                            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+                                Here's how to use FlexPrice in your application
+                            </p>
+                        </div>
+
+                        <div className="bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 rounded-2xl p-8 shadow-2xl">
+                            <CodeBlock code={codeBlocks.usage} language="javascript" id="usage" />
+                        </div>
                     </motion.div>
 
                     {/* Features Grid */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 1.2 }}
+                        transition={{ duration: 0.6, delay: 1.4 }}
                         className="mb-20"
                     >
                         <div className="text-center mb-16">
@@ -412,21 +430,21 @@ VITE_FLEXPRICE_BASE_URL=https://api.cloud.flexprice.io/v1`
                                     key={feature.title}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.6, delay: 1.4 + index * 0.1 }}
+                                    transition={{ duration: 0.6, delay: 1.6 + index * 0.1 }}
                                 >
-                                    <Card className="h-full hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:scale-105 group">
-                                        <CardHeader className="pb-4">
+                                    <div className="h-full hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:scale-105 group bg-white rounded-2xl p-6">
+                                        <div className="pb-4">
                                             <div className={`p-4 rounded-2xl bg-gradient-to-br ${feature.bgColor} mb-4 group-hover:scale-110 transition-transform duration-300`}>
                                                 <feature.icon className={`h-8 w-8 bg-gradient-to-r ${feature.color} bg-clip-text text-transparent`} />
                                             </div>
-                                            <CardTitle className="text-xl font-bold text-slate-900 mb-3">
+                                            <h3 className="text-xl font-bold text-slate-900 mb-3">
                                                 {feature.title}
-                                            </CardTitle>
+                                            </h3>
                                             <p className="text-slate-600 leading-relaxed">
                                                 {feature.description}
                                             </p>
-                                        </CardHeader>
-                                        <CardContent>
+                                        </div>
+                                        <div>
                                             <ul className="space-y-3">
                                                 {feature.steps.map((step, stepIndex) => (
                                                     <li key={stepIndex} className="flex items-start gap-3 text-sm text-slate-600">
@@ -435,34 +453,11 @@ VITE_FLEXPRICE_BASE_URL=https://api.cloud.flexprice.io/v1`
                                                     </li>
                                                 ))}
                                             </ul>
-                                        </CardContent>
-                                    </Card>
+                                        </div>
+                                    </div>
                                 </motion.div>
                             ))}
                         </div>
-                    </motion.div>
-
-                    {/* Usage Example */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 1.6 }}
-                        className="mb-20"
-                    >
-                        <Card className="border-0 shadow-2xl bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 text-white">
-                            <CardHeader className="text-center pb-6">
-                                <CardTitle className="text-3xl font-bold flex items-center justify-center gap-3 mb-4">
-                                    <Code className="h-8 w-8 text-blue-400" />
-                                    Usage Example
-                                </CardTitle>
-                                <p className="text-blue-100 text-lg">
-                                    Here's how to use FlexPrice in your application
-                                </p>
-                            </CardHeader>
-                            <CardContent>
-                                <CodeBlock code={codeBlocks.usage} language="javascript" id="usage" />
-                            </CardContent>
-                        </Card>
                     </motion.div>
 
                     {/* Final CTA */}
@@ -485,7 +480,8 @@ VITE_FLEXPRICE_BASE_URL=https://api.cloud.flexprice.io/v1`
                                     <div className="flex flex-col sm:flex-row gap-6 justify-center">
                                         <Button
                                             size="lg"
-                                            className="bg-white text-blue-600 hover:bg-blue-50 px-10 py-5 text-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                                            className="bg-white text-blue-600 hover:bg-blue-50 px-10 py-5 text-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 rounded-2xl border-2 border-white/20"
+                                            onClick={() => window.open('https://admin.flexprice.io/', '_blank')}
                                         >
                                             <Globe className="h-6 w-6 mr-3" />
                                             Get Your API Key
@@ -494,7 +490,8 @@ VITE_FLEXPRICE_BASE_URL=https://api.cloud.flexprice.io/v1`
                                         <Button
                                             size="lg"
                                             variant="outline"
-                                            className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-10 py-5 text-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                                            className="border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 px-10 py-5 text-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 rounded-2xl backdrop-blur-sm"
+                                            onClick={() => window.open('https://github.com/flexprice/flexprice', '_blank')}
                                         >
                                             <Github className="h-6 w-6 mr-3" />
                                             Star on GitHub
@@ -507,7 +504,7 @@ VITE_FLEXPRICE_BASE_URL=https://api.cloud.flexprice.io/v1`
                     </motion.div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

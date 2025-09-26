@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { ChevronRight, Home, BarChart3, Calendar, Settings } from 'lucide-react';
+import { ChevronRight, Home, BarChart3, Calendar, Settings, Github, BookOpen, ExternalLink } from 'lucide-react';
 
 const BreadCrumbs: React.FC = () => {
     const location = useLocation();
@@ -58,6 +58,7 @@ const BreadCrumbs: React.FC = () => {
 
                     {/* Right side info */}
                     <div className="ml-auto flex items-center space-x-4">
+                        {/* Status indicator */}
                         <div className="hidden sm:flex items-center space-x-2 text-xs text-slate-500">
                             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                             <span>Live</span>
@@ -68,6 +69,28 @@ const BreadCrumbs: React.FC = () => {
                                 month: 'short',
                                 day: 'numeric'
                             })}
+                        </div>
+
+                        {/* External Links */}
+                        <div className="flex items-center space-x-2">
+                            <a
+                                href="https://docs.flexprice.io"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 group"
+                                title="Documentation"
+                            >
+                                <BookOpen className="h-4 w-4" />
+                            </a>
+                            <a
+                                href="https://github.com/flexprice/flexprice"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 text-slate-400 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200 group"
+                                title="GitHub Repository"
+                            >
+                                <Github className="h-4 w-4" />
+                            </a>
                         </div>
                     </div>
                 </div>

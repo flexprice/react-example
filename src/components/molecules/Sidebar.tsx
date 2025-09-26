@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart3, Settings, Zap, ChevronRight, Activity, Rocket } from 'lucide-react';
+import { BarChart3, Settings, Zap, ChevronRight, Activity, Rocket, Github, BookOpen, ExternalLink, Mail, MessageCircle } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router';
 import { RouteNames } from '@/core/Routes/routeNames';
 
@@ -25,12 +25,6 @@ const Sidebar: React.FC = () => {
             url: RouteNames.events,
             icon: Activity,
             description: 'Event analytics & firing',
-        },
-        {
-            title: 'Settings',
-            url: '/settings',
-            icon: Settings,
-            description: 'Configuration',
         },
     ];
 
@@ -78,6 +72,83 @@ const Sidebar: React.FC = () => {
                             </button>
                         );
                     })}
+                </div>
+
+                {/* External Links Section */}
+                <div className="mt-8 pt-6 border-t border-slate-700">
+                    <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-2">
+                        Resources
+                    </h3>
+                    <div className="space-y-2">
+                        <a
+                            href="https://docs.flexprice.io"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full group flex items-center px-4 py-3 text-sm font-medium text-slate-300 hover:bg-slate-700 hover:text-white rounded-lg transition-all duration-200"
+                        >
+                            <BookOpen className="h-5 w-5 text-slate-400 group-hover:text-white mr-3" />
+                            <div className="flex-1 text-left">
+                                <div className="font-medium">Documentation</div>
+                                <div className="text-xs text-slate-500 group-hover:text-slate-300">
+                                    API docs & guides
+                                </div>
+                            </div>
+                            <ExternalLink className="h-4 w-4 text-slate-500 group-hover:text-slate-300" />
+                        </a>
+
+                        <a
+                            href="https://github.com/flexprice/flexprice"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full group flex items-center px-4 py-3 text-sm font-medium text-slate-300 hover:bg-slate-700 hover:text-white rounded-lg transition-all duration-200"
+                        >
+                            <Github className="h-5 w-5 text-slate-400 group-hover:text-white mr-3" />
+                            <div className="flex-1 text-left">
+                                <div className="font-medium">GitHub</div>
+                                <div className="text-xs text-slate-500 group-hover:text-slate-300">
+                                    Source code & issues
+                                </div>
+                            </div>
+                            <ExternalLink className="h-4 w-4 text-slate-500 group-hover:text-slate-300" />
+                        </a>
+                    </div>
+                </div>
+
+                {/* Contact Us Section */}
+                <div className="mt-6 pt-6 border-t border-slate-700">
+                    <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-2">
+                        Contact Us
+                    </h3>
+                    <div className="space-y-2">
+                        <a
+                            href="mailto:support@flexprice.io"
+                            className="w-full group flex items-center px-4 py-3 text-sm font-medium text-slate-300 hover:bg-slate-700 hover:text-white rounded-lg transition-all duration-200"
+                        >
+                            <Mail className="h-5 w-5 text-slate-400 group-hover:text-white mr-3" />
+                            <div className="flex-1 text-left">
+                                <div className="font-medium">Email Support</div>
+                                <div className="text-xs text-slate-500 group-hover:text-slate-300">
+                                    support@flexprice.io
+                                </div>
+                            </div>
+                        </a>
+
+                        <a
+                            href="https://join.slack.com/t/flexpricecommunity/shared_invite/zt-3caivk4wj-a2MDp7qvX5gdlOHeQc6PuA"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full group flex items-center px-4 py-3 text-sm font-medium text-slate-300 hover:bg-slate-700 hover:text-white rounded-lg transition-all duration-200"
+                        >
+                            <MessageCircle className="h-5 w-5 text-slate-400 group-hover:text-white mr-3" />
+                            <div className="flex-1 text-left">
+                                <div className="font-medium">Slack Community</div>
+                                <div className="text-xs text-slate-500 group-hover:text-slate-300">
+                                    Join our community
+                                </div>
+                            </div>
+                            <ExternalLink className="h-4 w-4 text-slate-500 group-hover:text-slate-300" />
+                        </a>
+                    </div>
                 </div>
             </nav>
 
