@@ -11,6 +11,7 @@ import {
     CouponsApi,
     CreditNotesApi,
     EntitlementsApi,
+    UsersApi,
     TypesCancellationType,
     TypesPauseMode,
     TypesResumeMode
@@ -62,7 +63,8 @@ import type {
     SubscriptionsGetStatusEnum,
     DtoCancelSubscriptionRequest,
     DtoPauseSubscriptionRequest,
-    DtoResumeSubscriptionRequest
+    DtoResumeSubscriptionRequest,
+    DtoUserResponse
 } from '@flexprice/sdk';
 
 /**
@@ -86,6 +88,7 @@ export class FlexPrice {
     public coupons: CouponsApi;
     public creditNotes: CreditNotesApi;
     public entitlements: EntitlementsApi;
+    public users: UsersApi;
 
     constructor(config: Configuration) {
         this.config = config;
@@ -102,6 +105,7 @@ export class FlexPrice {
         this.coupons = new CouponsApi(config);
         this.creditNotes = new CreditNotesApi(config);
         this.entitlements = new EntitlementsApi(config);
+        this.users = new UsersApi(config);
     }
 
     // ==================== EVENTS API ====================
@@ -317,6 +321,18 @@ export class FlexPrice {
             return await this.auth.authSignupPost({ signup: userData });
         } catch (error) {
             console.error('Failed to sign up:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Get current user information
+     */
+    async getCurrentUser(): Promise<DtoUserResponse> {
+        try {
+            return await this.users.usersMeGet();
+        } catch (error) {
+            console.error('Failed to get current user:', error);
             throw error;
         }
     }
@@ -634,6 +650,7 @@ export class FlexPrice {
         this.coupons = new CouponsApi(newConfig);
         this.creditNotes = new CreditNotesApi(newConfig);
         this.entitlements = new EntitlementsApi(newConfig);
+        this.users = new UsersApi(newConfig);
     }
 
     /**

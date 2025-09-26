@@ -1,11 +1,53 @@
-import React from 'react';
-import { BarChart3, Settings, Zap, ChevronRight, Activity, Rocket, Github, BookOpen, ExternalLink, Mail, MessageCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { BarChart3, Settings, Zap, ChevronRight, Activity, Rocket, Github, BookOpen, ExternalLink, Mail, MessageCircle, User } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router';
 import { RouteNames } from '@/core/Routes/routeNames';
+import { flexprice } from '@/core/flexprice/config';
+import { UsersApi } from '@flexprice/sdk';
+
+interface UserData {
+    id: string;
+    name: string;
+    email: string;
+    avatar?: string;
+}
 
 const Sidebar: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [userData, setUserData] = useState<UserData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+
+    // Fetch current user data using FlexPrice SDK
+    useEffect(() => {
+        const fetchCurrentUser = async () => {
+            try {
+                setLoading(true);
+                const user = await flexprice.getCurrentUser();
+                setUserData({
+                    id: user.id || 'unknown',
+                    name: user.email?.split('@')[0] || 'User', // Use email prefix as name since name is not in DtoUserResponse
+                    email: user.email || 'user@flexprice.com',
+                    avatar: undefined // Avatar not available in DtoUserResponse
+                });
+            } catch (err) {
+                console.error('Failed to fetch current user:', err);
+                setError('Failed to load user data');
+                // Fallback data on error
+                setUserData({
+                    id: 'demo_user',
+                    name: 'Demo User',
+                    email: 'demo@flexprice.com'
+                });
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCurrentUser();
+    }, []);
 
     const menuItems = [
         {
@@ -155,15 +197,56 @@ const Sidebar: React.FC = () => {
             {/* Footer */}
             <div className="p-4 border-t border-slate-700">
                 <div className="bg-slate-800 rounded-lg p-4">
-                    <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
-                            <span className="text-white text-sm font-bold">A</span>
+                    {loading ? (
+                        <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center animate-pulse">
+                                <User className="h-4 w-4 text-slate-400" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <div className="h-4 bg-slate-600 rounded animate-pulse mb-1"></div>
+                                <div className="h-3 bg-slate-600 rounded animate-pulse w-3/4"></div>
+                            </div>
                         </div>
-                        <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-white truncate">Admin User</p>
-                            <p className="text-xs text-slate-400">admin@flexprice.com</p>
+                    ) : userData ? (
+                        <div className="flex items-center space-x-3">
+                            {userData.avatar ? (
+                                <img
+                                    src={userData.avatar}
+                                    alt={userData.name}
+                                    className="w-8 h-8 rounded-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
+                                    <span className="text-white text-sm font-bold">
+                                        {userData.name.charAt(0).toUpperCase()}
+                                    </span>
+                                </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-white truncate">
+                                    {userData.name}
+                                </p>
+                                <p className="text-xs text-slate-400 truncate">
+                                    {userData.email}
+                                </p>
+                                {error && (
+                                    <p className="text-xs text-red-400 truncate">
+                                        {error}
+                                    </p>
+                                )}
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center">
+                                <User className="h-4 w-4 text-slate-400" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-white truncate">Demo User</p>
+                                <p className="text-xs text-slate-400">demo@flexprice.com</p>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
