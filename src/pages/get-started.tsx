@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import {
     Star,
     CheckCircle,
@@ -258,7 +258,7 @@ VITE_FLEXPRICE_BASE_URL=https://api.cloud.flexprice.io/v1`
                                 Get Started with FlexPrice
                             </div>
                             <h1 className="text-6xl font-bold bg-gradient-to-r from-slate-900 via-blue-900 to-purple-900 bg-clip-text text-transparent mb-6 leading-tight">
-                                Welcome to FlexPrice SDK
+                                Welcome to Flexprice SDK
                             </h1>
                             <p className="text-xl text-slate-600 max-w-4xl mx-auto mb-10 leading-relaxed">
                                 The complete solution for usage-based billing, analytics, and subscription management.
