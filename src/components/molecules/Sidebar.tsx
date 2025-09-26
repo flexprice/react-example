@@ -20,8 +20,8 @@ const Sidebar: React.FC = () => {
             description: 'Usage analytics',
         },
         {
-            title: 'Analytics',
-            url: '/analytics',
+            title: 'Events',
+            url: '/events',
             icon: Activity,
             description: 'Event analytics & firing',
         },

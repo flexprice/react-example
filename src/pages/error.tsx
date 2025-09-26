@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-import { Home, ArrowLeft, Search, Zap } from 'lucide-react';
+import { Home, ArrowLeft, Search, Zap, Activity } from 'lucide-react';
 import { Button } from '@/components/ui';
 
 const ErrorPage: React.FC = () => {
@@ -77,16 +77,16 @@ const ErrorPage: React.FC = () => {
                             </div>
                         </button>
                         <button
-                            onClick={() => navigate('/events')}
+                            onClick={() => navigate('/analytics')}
                             className="p-3 text-left rounded-lg hover:bg-slate-50 transition-colors group"
                         >
                             <div className="flex items-center space-x-3">
                                 <div className="p-2 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
-                                    <Search className="h-4 w-4 text-green-600" />
+                                    <Activity className="h-4 w-4 text-green-600" />
                                 </div>
                                 <div>
                                     <p className="font-medium text-slate-900">Events</p>
-                                    <p className="text-sm text-slate-600">Monitor events</p>
+                                    <p className="text-sm text-slate-600">Event analytics & firing</p>
                                 </div>
                             </div>
                         </button>

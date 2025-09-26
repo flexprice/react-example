@@ -124,7 +124,7 @@ const DebugMenu: React.FC = () => {
                                         {eventCount * 5} events have been fired for demo purposes.
                                     </p>
                                     <div className='flex gap-2'>
-                                        <Button variant='outline' size='sm' className='flex-1' onClick={() => navigate('/events')}>
+                                        <Button variant='outline' size='sm' className='flex-1' onClick={() => navigate('/analytics')}>
                                             View Events
                                         </Button>
                                         <Button variant='outline' size='sm' className='flex-1' onClick={handleStartStreaming}>

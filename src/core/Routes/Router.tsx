@@ -5,7 +5,7 @@ import { MainLayout } from '@/layouts';
 export const RouteNames = {
     home: '/',
     usage: '/usage',
-    analytics: '/analytics',
+    events: '/events',
     error: '*',
 };
 
@@ -23,7 +23,7 @@ export const MainRouter = createBrowserRouter([
                 element: <UsagePage />,
             },
             {
-                path: RouteNames.analytics,
+                path: RouteNames.events,
                 element: <AnalyticsPage />,
             },
         ],
