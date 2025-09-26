@@ -17,8 +17,8 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@flexprice/sdk": ["../flexprice/api/javascript/dist"]
+      "@/*": ["./src/*"]
+      // "@flexprice/sdk": ["../flexprice/api/javascript/dist"]
     }
   },
   "include": ["src", "src/types"]

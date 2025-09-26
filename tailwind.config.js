@@ -1,7 +1,4 @@
-import animatePlugin from 'tailwindcss-animate';
-
 export default {
-    darkMode: ['class'],
     content: ['./index.html', './src/**/*.{ts,tsx,js,jsx}'],
     theme: {
         extend: {
@@ -17,9 +14,9 @@ export default {
                 qanelas: ['Qanelas', 'sans-serif'],
             },
             borderRadius: {
-                lg: 'var(--radius)',
-                md: 'calc(var(--radius) - 2px)',
-                sm: 'calc(var(--radius) - 4px)',
+                lg: '0.5rem',
+                md: '0.375rem',
+                sm: '0.25rem',
             },
             colors: {
                 background: 'hsl(var(--background))',
@@ -102,5 +99,4 @@ export default {
             },
         },
     },
-    plugins: [animatePlugin],
 };
