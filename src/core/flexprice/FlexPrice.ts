@@ -166,6 +166,25 @@ export class FlexPrice {
         }
     }
 
+    /**
+     * Fire LLM usage event with predefined parameters
+     */
+    async fireLLMUsageEvent(externalCustomerId: string = "demo_user_123", value: string = "100"): Promise<void> {
+        try {
+            const event: DtoIngestEventRequest = {
+                eventName: "llm_usage",
+                externalCustomerId,
+                properties: {
+                    value
+                }
+            };
+            await this.ingestEvent(event);
+        } catch (error) {
+            console.error('Failed to fire LLM usage event:', error);
+            throw error;
+        }
+    }
+
     // ==================== CUSTOMERS API ====================
 
     /**
