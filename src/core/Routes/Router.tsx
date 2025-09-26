@@ -1,13 +1,7 @@
 import { createBrowserRouter } from 'react-router';
-import { HomePage, ErrorPage, UsagePage, AnalyticsPage } from '@/pages';
+import { ErrorPage, UsagePage, AnalyticsPage, GetStartedPage } from '@/pages';
 import { MainLayout } from '@/layouts';
-
-export const RouteNames = {
-    home: '/',
-    usage: '/usage',
-    events: '/events',
-    error: '*',
-};
+import { RouteNames } from './routeNames';
 
 export const MainRouter = createBrowserRouter([
     {
@@ -16,7 +10,7 @@ export const MainRouter = createBrowserRouter([
         children: [
             {
                 path: RouteNames.home,
-                element: <HomePage />,
+                element: <GetStartedPage />,
             },
             {
                 path: RouteNames.usage,
@@ -25,6 +19,10 @@ export const MainRouter = createBrowserRouter([
             {
                 path: RouteNames.events,
                 element: <AnalyticsPage />,
+            },
+            {
+                path: RouteNames.getStarted,
+                element: <GetStartedPage />,
             },
         ],
     },

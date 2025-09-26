@@ -1,6 +1,7 @@
 import React from 'react';
-import { Home, BarChart3, Settings, Zap, ChevronRight, Activity } from 'lucide-react';
+import { BarChart3, Settings, Zap, ChevronRight, Activity, Rocket } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router';
+import { RouteNames } from '@/core/Routes/routeNames';
 
 const Sidebar: React.FC = () => {
     const navigate = useNavigate();
@@ -8,20 +9,20 @@ const Sidebar: React.FC = () => {
 
     const menuItems = [
         {
-            title: 'Dashboard',
-            url: '/',
-            icon: Home,
-            description: 'Overview and metrics',
+            title: 'Get Started',
+            url: RouteNames.home,
+            icon: Rocket,
+            description: 'Setup and tutorials',
         },
         {
             title: 'Usage',
-            url: '/usage',
+            url: RouteNames.usage,
             icon: BarChart3,
             description: 'Usage analytics',
         },
         {
             title: 'Events',
-            url: '/events',
+            url: RouteNames.events,
             icon: Activity,
             description: 'Event analytics & firing',
         },

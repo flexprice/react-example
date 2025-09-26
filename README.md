@@ -1,69 +1,73 @@
-# React + TypeScript + Vite
+# FlexPrice SDK Example
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is an example repository demonstrating how to use the FlexPrice SDK for usage-based billing, analytics, and subscription management.
 
-Currently, two official plugins are available:
+## Quick Start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd my-app
+   ```
 
-## Expanding the ESLint configuration
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` and add your FlexPrice credentials:
+   - Get your API key from [FlexPrice Dashboard](https://dashboard.flexprice.io)
+   - Get your Environment ID from [FlexPrice Dashboard](https://dashboard.flexprice.io)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+5. **Open your browser**
+   Navigate to `http://localhost:3000` and click on "Get Started" to see the setup guide.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# FlexPrice SDK Configuration
+VITE_FLEXPRICE_API_KEY=your_api_key_here
+VITE_FLEXPRICE_ENVIRONMENT_ID=your_environment_id_here
+VITE_FLEXPRICE_BASE_URL=https://api.cloud.flexprice.io/v1
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Features
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Get Started Page**: Complete setup guide and tutorials
+- **Usage Analytics**: Track and visualize usage data
+- **Event Management**: Fire and monitor events
+- **Real-time Dashboard**: Live usage monitoring
+- **Environment Configuration**: Easy setup with environment variables
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## FlexPrice Features Covered
+
+- ✅ FlexPrice SDK integration
+- ✅ FlexPrice API usage
+- ✅ FlexPrice Dashboard
+- ✅ FlexPrice Analytics
+- ✅ FlexPrice Billing
+- ✅ FlexPrice Invoicing
+- ✅ FlexPrice Subscriptions
+- ✅ FlexPrice Entitlements
+
+## Learn More
+
+- [FlexPrice Documentation](https://docs.flexprice.io)
+- [FlexPrice Dashboard](https://dashboard.flexprice.io)
+- [GitHub Repository](https://github.com/flexprice/flexprice-sdk)
+
+## Support
+
+For support, email support@flexprice.io or join our Discord community.

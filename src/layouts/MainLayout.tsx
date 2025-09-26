@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router';
-import { Sidebar, BreadCrumbs, DebugMenu } from '@/components/molecules';
+import { Sidebar, BreadCrumbs } from '@/components/molecules';
 
 const MainLayout: React.FC = () => {
     return (
@@ -12,7 +12,6 @@ const MainLayout: React.FC = () => {
                 {/* Main Content */}
                 <main className='flex-1 px-6 py-6 relative overflow-y-auto'>
                     <Outlet />
-                    <DebugMenu />
                 </main>
             </div>
         </div>

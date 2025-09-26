@@ -10,7 +10,7 @@ export default {
                 geist: ['Geist', 'sans-serif'],
                 inter: ['Inter', 'sans-serif'],
                 'open-sans': ['Open Sans', 'sans-serif'],
-                'fira-code': ['Fira Code', 'monospace'],
+                'fira-code': ['Fira Code', 'JetBrains Mono', 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Consolas', 'Courier New', 'monospace'],
                 qanelas: ['Qanelas', 'sans-serif'],
             },
             borderRadius: {

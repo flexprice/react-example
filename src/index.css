@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Geist:wght@100..900&display=swap");
+@import "@fontsource/fira-code/400.css";
+@import "@fontsource/fira-code/500.css";
+@import "@fontsource/fira-code/600.css";
 
 @import "tailwindcss";
 
@@ -31,6 +34,39 @@
     background-color: #f8fafc;
     color: #0f172a;
   }
+  code,
+  pre,
+  .font-fira-code,
+  pre[class*="language-"],
+  code[class*="language-"] {
+    font-family: "Fira Code", "JetBrains Mono", "SF Mono", "Monaco",
+      "Cascadia Code", "Roboto Mono", "Consolas", "Courier New", monospace !important;
+  }
+}
+
+/* Force Fira Code globally for all code elements */
+* {
+  font-variant-ligatures: common-ligatures;
+}
+
+pre,
+code,
+.font-fira-code {
+  font-family: "Fira Code", "JetBrains Mono", "SF Mono", "Monaco",
+    "Cascadia Code", "Roboto Mono", "Consolas", "Courier New", monospace !important;
+  font-variant-ligatures: common-ligatures !important;
+}
+
+/* Force Fira Code on syntax highlighter elements */
+pre[class*="language-"] *,
+code[class*="language-"] *,
+pre[class*="language-"] span,
+code[class*="language-"] span,
+.token,
+.token * {
+  font-family: "Fira Code", "JetBrains Mono", "SF Mono", "Monaco",
+    "Cascadia Code", "Roboto Mono", "Consolas", "Courier New", monospace !important;
+  font-variant-ligatures: common-ligatures !important;
 }
 
 @layer utilities {
